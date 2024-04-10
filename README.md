@@ -1,6 +1,6 @@
 # ~Robeats~OsuWebConvert2
 
-A fork of @spotco's repository used for [https://www.roblox.com/games/698448212/Spring-RoBeats-Music-Rhythm-RPG](Robeats!)
+A fork of @spotco's repository used for [Robeats!](https://www.roblox.com/games/698448212/Spring-RoBeats-Music-Rhythm-RPG)
 
 ## Unique Features
 
