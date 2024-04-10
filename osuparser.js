@@ -107,11 +107,16 @@ function beatmapParser() {
       customSampleIndex: parseInt(members[4]),
       sampleVolume:      parseInt(members[5]),
       timingChange:      (members[6] == 1),
-      kiaiTimeActive:    (members[7] == 1)
+      kiaiTimeActive:    (members[7] == 1),
+	  bpmMin: 0,
+	  bpmMax: 0,
+	  isBpmChange: false,
     };
 
     if (!isNaN(timingPoint.beatLength) && timingPoint.beatLength !== 0) {
-      if (timingPoint.beatLength > 0) {
+	  timingPoint.isBpmChange = timingPoint.beatLength > 0
+
+      if (timingPoint.isBpmChange) {
         // If positive, beatLength is the length of a beat in milliseconds
         var bpm        = Math.round(60000 / timingPoint.beatLength);
         beatmap.bpmMin = beatmap.bpmMin ? Math.min(beatmap.bpmMin, bpm) : bpm;

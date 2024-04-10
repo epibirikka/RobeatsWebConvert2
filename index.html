@@ -32,14 +32,20 @@ $(function(){
   $("#submit").click(function(){
     $("#out").val("converting...")
 			var osu_file_str = $("#in").val()
-			$("#out").val(module.require("osu_to_lua")(osu_file_str))
+			var rblx_audio_id_str = $("#inaudio").val()
+			$("#out").val(module.require("osu_to_lua")(osu_file_str, rblx_audio_id_str))
   })
 })
 </script>
-<a href="https://github.com/spotco/RobeatsWebConvert2">Source</a><br/>
+<h2>hello</h2>
+<a href="https://github.com/epibirika/RobeatsWebConvert2">Source</a><br/>
 <textarea id="in" style="width:1000px;height:200px">
   paste contents of osu file here
 </textarea>
+<br/>
+<a href="https://create.roblox.com/dashboard/creations?activeTab=Audio" target="_blank">Audio uploading link</a><br/>
+<br/>
+<input style="margin-top:5px; margin-bottom:5px; width:1000px;" type="text" id="inaudio" placeholder="your audio id here"></input>
 <br/>
 <button id="submit">CONVERT</button>
 <br/>
@@ -47,7 +53,10 @@ $(function(){
 <br/>
 <br/>
 <textarea id="out" style="width:1000px;height:200px" readonly>
-  output (paste this into the "SongMap" script in the workspace)
+  output 
+
+  - paste this into the "SongMap" script in the workspace, if you are mapping in Robeats
+  - pretty much anywhere in any game that supports this script formatting
 </textarea>
 </body>
 </html>

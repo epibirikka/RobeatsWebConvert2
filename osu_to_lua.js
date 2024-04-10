@@ -1,7 +1,7 @@
 var parser = module.require("osuparser");
 var format = module.require('format');
 
-module.export("osu_to_lua", function(osu_file_contents) {
+module.export("osu_to_lua", function(osu_file_contents, rblx_audio_id) {
 	var rtv_lua = ""
 	var append_to_output = function(str, newline) {
 		if (newline === undefined || newline === true)
@@ -97,8 +97,25 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	})
 
 	append_to_output("local rtv = {}");
-	append_to_output("--Your audio assetid should be in the form of \"rbxassetid://...\". Upload audios at \"https://www.roblox.com/develop?View=3\", and copy the uploaded id from the URL.")
-	append_to_output(format("rtv.%s = \"%s\"","AudioAssetId","rbxassetid://FILL_IN_AUDIO_ASSETID_HERE"));
+
+	var intRblxAudioId = parseInt(String(rblx_audio_id))
+
+	if (Number.isNaN(intRblxAudioId))
+	{
+		if (String(rblx_audio_id).trim() == "")
+		{
+			append_to_output(format("rtv.%s = \"\" -- !! WARNING: audio id input given is blank","AudioAssetId"));
+		}
+		else
+		{
+			append_to_output(format("rtv.%s = \"\" -- !! ERROR: input of rblx audio id '%s' is not a number","AudioAssetId", rblx_audio_id));
+		}
+	}
+	else
+	{
+		append_to_output(format("rtv.%s = \"rbxassetid://%d\"","AudioAssetId",intRblxAudioId));
+	}
+
 	append_to_output("--The name of your map.")
 	append_to_output(format("rtv.%s = \"%s\"","AudioFilename",beatmap.Title));
 	append_to_output("--The artist of your map.")
@@ -143,7 +160,11 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output("rtv.TimingPoints = {")
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
 		var itr = beatmap.timingPoints[i];
-		append_to_output(format("\t[%d] = { Time = %d; BeatLength = %d; };",i+1, itr.offset, itr.beatLength))
+
+		let formatBeatLength = itr.isBpmChange ? itr.beatLength : 0;
+		let formatScrollingVelocity = itr.isBpmChange ? 0 : itr.beatLength;
+
+		append_to_output(format("\t[%d] = { Time = %d; BeatLength = %d; ScrollingVelocity=%d; IsBPMChange=%d; };",i+1, itr.offset, formatBeatLength, formatScrollingVelocity, itr.isBpmChange))
 	}
 	append_to_output("};")
 	append_to_output("return rtv")
