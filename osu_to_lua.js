@@ -161,10 +161,7 @@ module.export("osu_to_lua", function(osu_file_contents, rblx_audio_id) {
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
 		var itr = beatmap.timingPoints[i];
 
-		let formatBeatLength = itr.isBpmChange ? itr.beatLength : 0;
-		let formatScrollingVelocity = itr.isBpmChange ? 0 : itr.beatLength;
-
-		append_to_output(format("\t[%d] = { Time = %d; BeatLength = %d; ScrollingVelocity=%d; IsBPMChange=%d; };",i+1, itr.offset, formatBeatLength, formatScrollingVelocity, itr.isBpmChange))
+		append_to_output(format("\t[%d] = { Time = %d; BeatLength = %d; ScrollingVelocity=%d; IsBPMChange=%d; };",i+1, itr.offset, itr.beatLength, itr.velocity, itr.isBpmChange))
 	}
 	append_to_output("};")
 	append_to_output("return rtv")
