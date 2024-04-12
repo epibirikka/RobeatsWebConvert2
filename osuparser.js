@@ -114,9 +114,8 @@ function beatmapParser() {
     };
 
     if (!isNaN(timingPoint.beatLength) && timingPoint.beatLength !== 0) {
-	  timingPoint.isBpmChange = timingPoint.beatLength > 0
 
-      if (timingPoint.isBpmChange) {
+	  if (timingPoint.beatLength > 0) {
         // If positive, beatLength is the length of a beat in milliseconds
         var bpm        = Math.round(60000 / timingPoint.beatLength);
         beatmap.bpmMin = beatmap.bpmMin ? Math.min(beatmap.bpmMin, bpm) : bpm;

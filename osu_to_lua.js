@@ -1,7 +1,7 @@
 var parser = module.require("osuparser");
 var format = module.require('format');
 
-module.export("osu_to_lua", function(osu_file_contents, rblx_audio_id) {
+module.export("osu_to_lua", function(osu_file_contents, rblx_audio_id, timingpoints_readable) {
 	var rtv_lua = ""
 	var append_to_output = function(str, newline) {
 		if (newline === undefined || newline === true)
@@ -157,12 +157,29 @@ module.export("osu_to_lua", function(osu_file_contents, rblx_audio_id) {
 	}
 	append_to_output("--")
 
+	append_to_output("rtv.USING_NEW_TP_FORMAT = 0xDEADBEEF;")
 	append_to_output("rtv.TimingPoints = {")
+
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
 		var itr = beatmap.timingPoints[i];
+		var offset = itr.offset / 1000;
 
-		append_to_output(format("\t[%d] = { Time = %d; BeatLength = %d; ScrollingVelocity=%d; IsBPMChange=%d; };",i+1, itr.offset, itr.beatLength, itr.velocity, itr.isBpmChange))
+		if (!timingpoints_readable)
+		{
+			append_to_output(`	[${i+1}] = { Time = ${offset}; BeatLength=${itr.beatLength}; ScrollingVelocity=${itr.velocity}; IsBPMChange=${itr.timingChange}}`)
+			continue
+		}
+
+		if (itr.timingChange)
+		{
+			append_to_output(`	[${i+1}] = { Time = ${offset}; BPM = ${itr.bpm}; };`)
+		}
+		else
+		{
+			append_to_output(`	[${i+1}] = { Time = ${offset}; ScrollingVelocity = ${1/itr.velocity}; };`)
+		}
 	}
+
 	append_to_output("};")
 	append_to_output("return rtv")
 

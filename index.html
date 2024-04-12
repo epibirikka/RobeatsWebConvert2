@@ -33,12 +33,13 @@ $(function(){
     $("#out").val("converting...")
 			var osu_file_str = $("#in").val()
 			var rblx_audio_id_str = $("#inaudio").val()
-			$("#out").val(module.require("osu_to_lua")(osu_file_str, rblx_audio_id_str))
+	  		var timingpoint_readable = $("#readabletimingpoint").is(":checked")
+			$("#out").val(module.require("osu_to_lua")(osu_file_str, rblx_audio_id_str, timingpoint_readable))
   })
 })
 </script>
 <h2>hello</h2>
-<a href="https://github.com/epibirika/RobeatsWebConvert2">Source</a><br/>
+<a href="https://github.com/epibirikka/RobeatsWebConvert2">Source</a><br/>
 <textarea id="in" style="width:1000px;height:200px">
   paste contents of osu file here
 </textarea>
@@ -46,6 +47,9 @@ $(function(){
 <a href="https://create.roblox.com/dashboard/creations?activeTab=Audio" target="_blank">Audio uploading link</a><br/>
 <br/>
 <input style="margin-top:5px; margin-bottom:5px; width:1000px;" type="text" id="inaudio" placeholder="your audio id here"></input>
+<br/>
+<input type="checkbox" id="readabletimingpoint" value="read">
+<label for="readabletimingpoint">Readable timing points</label>
 <br/>
 <button id="submit">CONVERT</button>
 <br/>
