@@ -157,7 +157,11 @@ module.export("osu_to_lua", function(osu_file_contents, rblx_audio_id, timingpoi
 	}
 	append_to_output("--")
 
-	append_to_output("rtv.USING_NEW_TP_FORMAT = 0xDEADBEEF;")
+	if (timingpoints_readable)
+	{
+		append_to_output("rtv.USING_NEW_TP_FORMAT = 0xDEADBEEF;")
+	}
+
 	append_to_output("rtv.TimingPoints = {")
 
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
