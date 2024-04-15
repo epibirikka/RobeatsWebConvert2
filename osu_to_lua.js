@@ -170,7 +170,7 @@ module.export("osu_to_lua", function(osu_file_contents, rblx_audio_id, timingpoi
 
 		if (!timingpoints_readable)
 		{
-			append_to_output(`	[${i+1}] = { Time = ${offset}; BeatLength=${itr.beatLength}; ScrollingVelocity=${itr.velocity}; IsBPMChange=${itr.timingChange}};`)
+			append_to_output(`	[${i+1}] = { Time = ${itr.offset}; BeatLength=${itr.beatLength}; ScrollingVelocity=${itr.velocity}; IsBPMChange=${itr.timingChange}};`)
 			continue
 		}
 
